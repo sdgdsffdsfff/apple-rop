@@ -6,6 +6,8 @@ package com.appleframework.rop.sample;
 
 import com.appleframework.rop.session.Session;
 import com.appleframework.rop.session.SessionManager;
+import com.appleframework.rop.session.SimpleSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,5 +42,13 @@ public class SampleSessionManager implements SessionManager{
     public void removeSession(String sessionId) {
         sessionCache.remove(sessionId);
     }
+
+	@Override
+	public Session createSession(Map<String, Object> map) {
+		Session session = new SimpleSession();
+		addSession(session.getId(), session);
+		return session;
+	}
+    
 }
 

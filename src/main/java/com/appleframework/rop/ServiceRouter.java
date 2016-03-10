@@ -6,6 +6,7 @@ package com.appleframework.rop;
 
 import com.appleframework.rop.event.RopEventListener;
 import com.appleframework.rop.security.InvokeTimesController;
+import com.appleframework.rop.security.SecurityManager;
 import com.appleframework.rop.session.SessionManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.format.support.FormattingConversionService;
@@ -81,14 +82,15 @@ public interface ServiceRouter {
      *
      * @param listener
      */
-    void addListener(RopEventListener listener);
+    @SuppressWarnings("rawtypes")
+	void addListener(RopEventListener listener);
 
     /**
      * 设置{@link com.appleframework.rop.security.SecurityManager}
      *
      * @param securityManager
      */
-    void setSecurityManager(com.appleframework.rop.security.SecurityManager securityManager);
+    void setSecurityManager(SecurityManager securityManager);
 
     /**
      * 注册

@@ -4,13 +4,21 @@
  */
 package com.appleframework.rop.session;
 
+import com.appleframework.rop.utils.UuidUtils;
+
 /**
  *
  * @author 陈雄华
  * @version 1.0
  */
-@SuppressWarnings("serial")
 public class SimpleSession extends AbstractSession {
 	
-}
+	private static final long serialVersionUID = 1346637459785314040L;
+	
+	public static final String SESSION_COOKIE_NAME = "ROP_SESSION";
 
+	public SimpleSession() {
+		setId(UuidUtils.getUUID());
+	}
+	
+}

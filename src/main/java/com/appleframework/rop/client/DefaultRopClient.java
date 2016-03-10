@@ -39,6 +39,7 @@ import java.util.*;
  * @author 陈雄华
  * @version 1.0
  */
+@SuppressWarnings("rawtypes")
 public class DefaultRopClient implements RopClient {
 
     protected final Logger logger = LoggerFactory.getLogger(getClass());
@@ -164,7 +165,8 @@ public class DefaultRopClient implements RopClient {
         return this;
     }
 
-    @Override
+	@SuppressWarnings({ "static-access", "unchecked" })
+	@Override
     public void addRopConvertor(RopConverter ropConverter) {
         this.ropConverterMap.put(ropConverter.getTargetClass(), ropConverter);
     }
@@ -176,7 +178,8 @@ public class DefaultRopClient implements RopClient {
 
     private class DefaultClientRequest implements ClientRequest {
 
-        private RopClient ropClient;
+        @SuppressWarnings("unused")
+		private RopClient ropClient;
 
         private Map<String, String> paramMap = new HashMap<String, String>(20);
 
@@ -204,7 +207,8 @@ public class DefaultRopClient implements RopClient {
             return this;
         }
 
-        @Override
+        @SuppressWarnings("unchecked")
+		@Override
         public ClientRequest addParam(String paramName, Object paramValue, boolean ignoreSign) {
             Assert.isTrue(paramName != null && paramName.length() > 0, "参数名不能为空");
             Assert.notNull(paramValue, "参数值不能为null");
@@ -224,13 +228,13 @@ public class DefaultRopClient implements RopClient {
             return this;
         }
 
-        @Override
+		@Override
         public <T> CompositeResponse post(Class<T> ropResponseClass, String methodName, String version) {
             Map<String, String> requestParams = addOtherParamMap(methodName, version);
             return post(ropResponseClass, requestParams);
         }
 
-        @Override
+		@Override
         public <T> CompositeResponse post(RopRequest ropRequest, Class<T> ropResponseClass, String methodName, String version) {
             Map<String, String> requestParams = getRequestForm(ropRequest, methodName, version);
             return post(ropResponseClass, requestParams);
@@ -383,7 +387,8 @@ public class DefaultRopClient implements RopClient {
          * @param mf
          * @return
          */
-        private Map<String, String> toParamValueMap(RopRequest ropRequest, MessageFormat mf) {
+		@SuppressWarnings("unchecked")
+		private Map<String, String> toParamValueMap(RopRequest ropRequest, MessageFormat mf) {
             List<Field> fields = requestAllFields.get(ropRequest.getClass());
             Map<String, String> params = new HashMap<String, String>();
             for (Field field : fields) {
@@ -427,7 +432,8 @@ public class DefaultRopClient implements RopClient {
                 }
             }
 
-            private boolean isTemporaryField(Field field) {
+            @SuppressWarnings("unused")
+			private boolean isTemporaryField(Field field) {
                 Annotation[] declaredAnnotations = field.getDeclaredAnnotations();
                 if (declaredAnnotations != null) {
                     for (Annotation declaredAnnotation : declaredAnnotations) {
@@ -452,7 +458,8 @@ public class DefaultRopClient implements RopClient {
      * @param mf
      * @return
      */
-    private Map<String, String> getParamFields(RopRequest ropRequest, MessageFormat mf) {
+    @SuppressWarnings("unused")
+	private Map<String, String> getParamFields(RopRequest ropRequest, MessageFormat mf) {
         if (!requestAllFields.containsKey(ropRequest.getClass())) {
             parseRopRequestClass(ropRequest);
         }
@@ -466,7 +473,8 @@ public class DefaultRopClient implements RopClient {
      * @param mf
      * @return
      */
-    private Map<String, String> toParamValueMap(RopRequest ropRequest, MessageFormat mf) {
+    @SuppressWarnings("unchecked")
+	private Map<String, String> toParamValueMap(RopRequest ropRequest, MessageFormat mf) {
         List<Field> fields = requestAllFields.get(ropRequest.getClass());
         Map<String, String> params = new HashMap<String, String>();
         for (Field field : fields) {
